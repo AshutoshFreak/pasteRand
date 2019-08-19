@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center>
+  <div style="width: 1200px" class="nes-container with-title is-centered">
+    <form method="POST">
+    {% csrf_token %}
+      <div class="nes-field">
+        {{ form }}
+      </div>
+    <br>  
+    <button type="submit" class="nes-btn is-primary">Paste!</button>   
+{% endblock %} 
+  </div>
+</center>
