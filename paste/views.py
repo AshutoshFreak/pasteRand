@@ -12,11 +12,11 @@ def index(request):
             return HttpResponseRedirect(instance.get_absolute_url())
     else:
         form = PasteForm()
-
+        
     return render(request, "paste/index.html", {"form": form})
 
 
 def detail(request, slug):
     paste = get_object_or_404(PasteFile, slug=slug)
-    context = {"title": paste.title, "content": paste.content}
+    context = {"title": paste.title, "content": paste.content, "date_time": paste.date_time}
     return render(request, "paste/detail.html", context)
