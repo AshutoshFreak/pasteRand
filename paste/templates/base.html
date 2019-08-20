@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+{% load static %} 
+<link href="{% static 'css/nes.min.css' %}" rel="stylesheet" />
   <title>PasteRand</title>
 </head>
 <body>
   <br>
-    {% block content %}
-    {% endblock content %}
+  <center>
+    <img src="{% static 'img/logo.png' %}" alt="logo">
+  </center>
+  <br>
+  {% block content %}
+  {% endblock content %}
 </body>
 </html>
