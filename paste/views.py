@@ -1,22 +1,29 @@
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render
+from django.views.generic import CreateView, DetailView
 
 from .forms import PasteForm
 from .models import PasteFile
 
 
-def index(request):
-    if request.method == "POST":
-        form = PasteForm(request.POST)
-        if form.is_valid():
-            instance = form.save()
-            return HttpResponseRedirect(instance.get_absolute_url())
-    else:
-        form = PasteForm()
-        
-    return render(request, "paste/index.html", {"form": form})
+class Index(CreateView):
+    model = PasteFile
+    form_class = PasteForm
+
+    def form_valid(self, form):
+        instance = form.save()
+        form.save()
+        return HttpResponseRedirect(instance.get_absolute_url())
 
 
-def detail(request, slug):
-    paste = get_object_or_404(PasteFile, slug=slug)
-    context = {"title": paste.title, "content": paste.content, "date_time": paste.date_time}
-    return render(request, "paste/detail.html", context)
+class Detail(DetailView):
+    template_name = "paste/index.html"
+    model = PasteFile
+
+    def get(self, request, slug):
+        paste_obj = get_object_or_404(PasteFile, slug=slug)
+        paste_content = {
+            "title": paste_obj.title,
+            "content": paste_obj.content,
+            "date_time": paste_obj.date_time,
+        }
+        return render(request, template_name, paste_content)
