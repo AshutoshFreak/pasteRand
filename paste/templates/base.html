@@ -8,10 +8,13 @@
 <body>
   <br>
   <center>
-    <img src="{% static 'img/logo.png' %}" alt="logo">
+    <a href="{% url 'paste:index' %}">
+      <img src="{% static 'img/logo.png' %}" alt="logo">
+    </a>
   </center>
   <br>
   {% block content %}
   {% endblock content %}
+  <br>
 </body>
 </html>
