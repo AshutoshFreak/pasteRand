@@ -16,7 +16,7 @@ class Index(CreateView):
 
 
 class Detail(DetailView):
-    template_name = "paste/index.html"
+    template_name = "paste/detail.html"
     model = PasteFile
 
     def get(self, request, slug):
@@ -26,4 +26,4 @@ class Detail(DetailView):
             "content": paste_obj.content,
             "date_time": paste_obj.date_time,
         }
-        return render(request, template_name, paste_content)
+        return render(request, self.template_name, paste_content)
