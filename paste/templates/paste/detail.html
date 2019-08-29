@@ -2,13 +2,15 @@
 
 {% block content %}
 <center>
-  <div style="width: 1200px" class="nes-container with-title is-centered">
+  <div style="width: 80vw" class="nes-container with-title">
     <p class="title">{{ title }}</p>
-    <p>{{ content }}</p>
+    <pre>
+      <code style="text-align:left;">{{content}}</code>
+    </pre>  
   </div>
   <br>
-  <span>
+  <h2> 
     <b>Creation date & time:</b> {{date_time}}
-  </span>
+  </h2>
 </center>
 {% endblock %}

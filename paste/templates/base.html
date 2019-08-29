@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-{% load static %} 
-<link href="{% static 'css/nes.min.css' %}" rel="stylesheet" />
-  <title>PasteRand</title>
+{% load static %}
+  <link href="{% static 'css/nes.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/print.css' %}" rel="stylesheet" media="print" />
+  <link href="{% static 'css/highlight.default.min.css' %}" rel="stylesheet" />
+  <script type="text/javascript" src="{% static 'js/highlight.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/highlightjs-line-numbers.min.js' %}"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+    hljs.initLineNumbersOnLoad();
+  </script>
+  <style>
+    td.hljs-ln-numbers {
+      text-align: center;
+      color: red;
+      border-right: 1px solid #999;
+      vertical-align: top;
+      padding-right: 5px;
+    }
+    td.hljs-ln-code {
+      padding-left: 10px;
+    }
+  </style>
+  <title>{{ title }}</title>
 </head>
 <body>
   <br>
