@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ 
+<center> 
+<div style="width: 80vw" class="nes-container">
+    <form method="POST"> 
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            {{ field.errors }}
+            {{ field.label_tag }}<br>
+            {{ field }}
+        </div>
+        {% endfor %}
+    <button type="submit" class="nes-btn is-primary">Send!</button>   
+    </form>
+</div>  
+</center>
+{% endblock %}

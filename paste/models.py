@@ -10,7 +10,7 @@ class PasteFile(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
     slug = models.SlugField(unique=True)
-    date_time = models.DateTimeField(auto_now=False, auto_now_add=True,blank=True)
+    date_time = models.DateTimeField(auto_now=False, auto_now_add=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -26,3 +26,13 @@ class PasteFile(models.Model):
     def save(self, *args, **kwargs):
         self.slug = self.get_slug()
         return super(PasteFile, self).save(*args, **kwargs)
+
+
+class Comment(models.Model):
+    paste_file = models.ForeignKey(
+        "paste.PasteFile", on_delete=models.CASCADE, related_name="comments", null=True
+    )
+    comment_text = models.TextField()
+
+    def __str__(self):
+        return self.comment_text
