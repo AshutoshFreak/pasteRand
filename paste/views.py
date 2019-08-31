@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404,render,redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import CreateView, DetailView
 
 from .forms import CommentForm, PasteForm
@@ -22,19 +22,18 @@ class Detail(DetailView):
     def get(self, request, slug):
         paste_obj = get_object_or_404(PasteFile, slug=slug)
         comments = Comment.objects.filter(paste_file_id=paste_obj.pk)
-        form = CommentForm(request.POST)
+        form = CommentForm()
         paste_content = {
             "title": paste_obj.title,
             "content": paste_obj.content,
             "date_time": paste_obj.date_time,
             "pk": paste_obj.pk,
             "comments": comments,
-            "form":form,
+            "form": form,
         }
         return render(request, self.template_name, paste_content)
 
-    
-    def post(self,request,slug):        
+    def post(self, request, slug):
         post = get_object_or_404(PasteFile, slug=slug)
         if request.method == "POST":
             form = CommentForm(request.POST)
