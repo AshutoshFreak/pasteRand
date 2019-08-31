@@ -23,7 +23,22 @@
     <p>No comments here yet.</p>
   {% endfor %}
   <br>
-  <a class="nes-btn is-primary" href="{% url 'paste:add_comment' pk=pk %}">Add comment</a>
   </div>
+</center>
+
+<center> 
+<div style="width: 80vw" class="nes-container">
+  <form method="POST"> 
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      {{ field.errors }}
+      {{ field.label_tag }}<br>
+      {{ field }}
+    </div>
+    {% endfor %}
+  <button type="submit" class="nes-btn is-success">Send!</button>   
+  </form>
+</div>  
 </center>
 {% endblock %}
