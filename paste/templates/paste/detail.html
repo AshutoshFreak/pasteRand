@@ -13,11 +13,29 @@
 </center>
 
 <center>
-  <h2>Comments</h2>
+<h2>Comments</h2>
   <div style="width: 80vw">
   {% for c in comments %}
     <div class="nes-container is-rounded">    
       <p>{{ c.comment_text }}</p>
+      
+      <div style="text-align:left;" class="lists">
+        {% if c.children.count > 0 %}
+          <b>
+            <p>Replies: {{ c.children.count }}</p>
+          </b>
+        {% endif %}
+      </div>
+
+      <div style="text-align:left;" class="lists">
+        {% for child_comment in c.children %}
+        <ul class="nes-list is-disc">
+          <li>{{ child_comment.comment_text }}</li>
+        </ul>
+          {% endfor %}
+      </div>
+
+      <a class="nes-btn is-warning" href="{% url 'paste:thread' id=c.comment_id %}">reply</a>
     </div>
   {% empty %}
     <p>No comments here yet.</p>
@@ -27,18 +45,18 @@
 </center>
 
 <center> 
-<div style="width: 80vw" class="nes-container">
-  <form method="POST"> 
-    {% csrf_token %}
-    {% for field in form %}
-    <div>
-      {{ field.errors }}
-      {{ field.label_tag }}<br>
-      {{ field }}
-    </div>
-    {% endfor %}
-  <button type="submit" class="nes-btn is-success">Send!</button>   
-  </form>
-</div>  
+  <div style="width: 80vw" class="nes-container">
+    <form method="POST"> 
+      {% csrf_token %}
+      {% for field in form %}
+      <div>
+        {{ field.errors }}
+        {{ field.label_tag }}<br>
+        {{ field }}
+      </div>
+      {% endfor %}
+    <button type="submit" class="nes-btn is-success">Send!</button>   
+    </form>
+  </div>  
 </center>
 {% endblock %}

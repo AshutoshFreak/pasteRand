@@ -33,6 +33,13 @@ class Comment(models.Model):
         "paste.PasteFile", on_delete=models.CASCADE, related_name="comments", null=True
     )
     comment_text = models.TextField()
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+    comment_id = models.AutoField(primary_key=True)
+    slug = models.SlugField()
 
     def __str__(self):
         return self.comment_text
+
+    # replies
+    def children(self):
+        return Comment.objects.filter(parent=self)
