@@ -11,7 +11,6 @@ class Index(CreateView):
 
     def form_valid(self, form):
         instance = form.save()
-        form.save()
         return redirect(instance.get_absolute_url())
 
 
