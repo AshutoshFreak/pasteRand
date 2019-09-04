@@ -42,4 +42,4 @@ class Comment(models.Model):
 
     # replies
     def children(self):
-        return Comment.objects.filter(parent=self)
+        return self.__class__.objects.filter(parent=self)
