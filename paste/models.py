@@ -34,7 +34,6 @@ class Comment(models.Model):
     )
     comment_text = models.TextField()
     parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
-    comment_id = models.AutoField(primary_key=True)
     slug = models.SlugField()
 
     def __str__(self):
@@ -42,4 +41,4 @@ class Comment(models.Model):
 
     # replies
     def children(self):
-        return Comment.objects.filter(parent=self)
+        return self.__class__.objects.filter(parent=self)

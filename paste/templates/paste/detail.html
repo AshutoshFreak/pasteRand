@@ -35,7 +35,7 @@
           {% endfor %}
       </div>
 
-      <a class="nes-btn is-warning" href="{% url 'paste:thread' id=c.comment_id %}">reply</a>
+      <a class="nes-btn is-warning" href="{% url 'paste:thread' id=c.id %}">reply</a>
     </div>
   {% empty %}
     <p>No comments here yet.</p>

@@ -11,7 +11,6 @@ class Index(CreateView):
 
     def form_valid(self, form):
         instance = form.save()
-        form.save()
         return redirect(instance.get_absolute_url())
 
 
@@ -48,7 +47,7 @@ class Detail(DetailView):
 
 
 def comment_thread(request, id):
-    parent_comment = get_object_or_404(Comment, comment_id=id)
+    parent_comment = get_object_or_404(Comment, id=id)
     post = get_object_or_404(PasteFile, slug=parent_comment.slug)
     form = CommentForm()
     if request.method == "POST":
