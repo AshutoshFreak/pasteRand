@@ -30,6 +30,7 @@ class Detail(DetailView):
             "pk": paste_obj.pk,
             "comments": comments,
             "form": form,
+            "slug": slug,
         }
         return render(request, self.template_name, paste_content)
 
@@ -60,3 +61,8 @@ def comment_thread(request, id):
             comment.save()
             return redirect(post.get_absolute_url())
     return render(request, "paste/comment_thread.html", {"form": form})
+
+
+def raw_content(request, slug):
+    paste_obj = get_object_or_404(PasteFile, slug=slug)
+    return render(request, "paste/raw_content.html", {"raw": paste_obj.content})
