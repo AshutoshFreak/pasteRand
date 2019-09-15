@@ -4,10 +4,10 @@
 <center>
   <div style="width: 80vw" class="nes-container with-title">
     <a style="float: right;" class="nes-btn is-primary" href="{% url 'paste:raw_content' slug=slug %}">Raw!</a>
-    <p class="title">{{ title }}</p>
-    <b>Creation date & time:</b>{{date_time}}
+    <p class="title">{{ object.title }}</p>
+    <b>Creation date & time:</b>{{ object.date_time }}
     <pre>
-      <code style="text-align:left;">{{content}}</code>
+      <code style="text-align:left;">{{ object.content }}</code>
     </pre> 
   </div>
   <br>
@@ -16,27 +16,24 @@
 <center>
 <h2>Comments</h2>
   <div style="width: 80vw">
-  {% for c in comments %}
+  {% for comment in comments %}
     <div class="nes-container is-rounded">    
-      <p>{{ c.comment_text }}</p>
-      
+      <p>{{ comment.comment_text }}</p>
       <div style="text-align:left;" class="lists">
-        {% if c.children.count > 0 %}
+        {% if comment.children.count > 0 %}
           <b>
-            <p>Replies: {{ c.children.count }}</p>
+            <p>Replies: {{ comment.children.count }}</p>
           </b>
         {% endif %}
       </div>
-
       <div style="text-align:left;" class="lists">
-        {% for child_comment in c.children %}
+        {% for child_comment in comment.children %}
         <ul class="nes-list is-disc">
           <li>{{ child_comment.comment_text }}</li>
         </ul>
           {% endfor %}
       </div>
-
-      <a class="nes-btn is-warning" href="{% url 'paste:thread' id=c.id %}">reply</a>
+      <a class="nes-btn is-warning" href="{% url 'paste:thread' id=comment.id %}">reply</a>
     </div>
   {% empty %}
     <p>No comments here yet.</p>

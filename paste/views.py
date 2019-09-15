@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.generic import CreateView, DetailView
 
 from .forms import CommentForm, PasteForm
@@ -9,10 +10,6 @@ class Index(CreateView):
     model = PasteFile
     form_class = PasteForm
 
-    def form_valid(self, form):
-        instance = form.save()
-        return redirect(instance.get_absolute_url())
-
 
 class Detail(DetailView):
     template_name = "paste/detail.html"
@@ -20,26 +17,20 @@ class Detail(DetailView):
 
     def get(self, request, slug):
         paste_obj = get_object_or_404(PasteFile, slug=slug)
-        comments = Comment.objects.filter(paste_file_id=paste_obj.pk, parent=None)
-
-        form = CommentForm()
-        paste_content = {
-            "title": paste_obj.title,
-            "content": paste_obj.content,
-            "date_time": paste_obj.date_time,
-            "pk": paste_obj.pk,
-            "comments": comments,
-            "form": form,
-            "slug": slug,
-        }
-        return render(request, self.template_name, paste_content)
+        context = dict(
+            object=paste_obj,
+            comments=Comment.objects.filter(paste_file__id=paste_obj.id),
+            form=CommentForm(),
+            slug=slug,
+        )
+        return render(request, self.template_name, context)
 
     def post(self, request, slug):
-        post = get_object_or_404(PasteFile, slug=slug)
         if request.method == "POST":
             form = CommentForm(request.POST)
             if form.is_valid():
-                comment = form.save()
+                post = get_object_or_404(PasteFile, slug=slug)
+                comment = form.save(commit=False)
                 comment.paste_file = post
                 comment.slug = post.slug
                 comment.save()
@@ -47,20 +38,24 @@ class Detail(DetailView):
         return render(request, self.template_name, paste_content)
 
 
-def comment_thread(request, id):
-    parent_comment = get_object_or_404(Comment, id=id)
-    post = get_object_or_404(PasteFile, slug=parent_comment.slug)
-    form = CommentForm()
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save()
-            comment.paste_file = parent_comment.paste_file
-            comment.parent = parent_comment
-            comment.slug = parent_comment.slug
-            comment.save()
-            return redirect(post.get_absolute_url())
-    return render(request, "paste/comment_thread.html", {"form": form})
+class CommentThread(CreateView):
+    template_name = "paste/comment_thread.html"
+    form_class = CommentForm
+    http_method_names = ["get", "post"]
+
+    def form_valid(self, form):
+        self.parent_comment = self.get_parent_comment()
+        form = form.save(commit=False)
+        form.paste_file = self.parent_comment.paste_file
+        form.parent = self.parent_comment
+        form.slug = self.parent_comment.slug
+        return super().form_valid(form)
+
+    def get_parent_comment(self):
+        return get_object_or_404(Comment, id=self.kwargs.get("id"))
+
+    def get_success_url(self):
+        return reverse("paste:detail", kwargs={"slug": self.parent_comment.slug})
 
 
 def raw_content(request, slug):
