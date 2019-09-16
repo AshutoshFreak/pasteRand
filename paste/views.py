@@ -58,6 +58,11 @@ class CommentThread(CreateView):
         return reverse("paste:detail", kwargs={"slug": self.parent_comment.slug})
 
 
-def raw_content(request, slug):
-    paste_obj = get_object_or_404(PasteFile, slug=slug)
-    return render(request, "paste/raw_content.html", {"raw": paste_obj.content})
+class RawContent(DetailView):
+    template_name = "paste/raw_content.html"
+    model = PasteFile
+
+    def get(self, request, slug):
+        paste_obj = get_object_or_404(PasteFile, slug=slug)
+        context = dict(raw=paste_obj.content)
+        return render(request, self.template_name, context)
