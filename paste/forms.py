@@ -6,7 +6,7 @@ from .models import Comment, PasteFile
 
 class PasteForm(ModelForm):
     content = forms.CharField(
-        required=False, widget=forms.Textarea(attrs={"rows": 15, "cols": 80})
+        required=False, widget=forms.Textarea(attrs={"rows": 15, "cols": 120})
     )
 
     class Meta:

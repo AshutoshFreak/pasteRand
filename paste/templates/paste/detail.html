@@ -1,32 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<center>
-  <div style="width: 80vw" class="nes-container with-title">
-    <a style="float: right;" class="nes-btn is-primary" href="{% url 'paste:raw_content' slug=slug %}">Raw!</a>
-    <p class="title">{{ object.title }}</p>
-    <b>Creation date & time:</b>{{ object.date_time }}
-    <pre>
-      <code style="text-align:left;">{{ object.content }}</code>
-    </pre> 
-  </div>
-  <br>
-</center>
+<div id="detail_page" class="nes-container with-title ">
+  <a style="float: right;" class="nes-btn is-primary" href="{% url 'paste:raw_content' slug=slug %}">Raw!</a>
+  <p class="title">{{ object.title }}</p>
+  <b>Creation date & time:</b>{{ object.date_time }}
+  <pre class="code">
+    <code>{{ object.content }}</code>
+  </pre>
+</div>
 
-<center>
-<h2>Comments</h2>
-  <div style="width: 80vw">
+<div class="comments">
+  <h2>Comments</h2>
   {% for comment in comments %}
-    <div class="nes-container is-rounded">    
+    <div class="nes-container is-rounded">
       <p>{{ comment.comment_text }}</p>
-      <div style="text-align:left;" class="lists">
+      <div class="lists">
         {% if comment.children.count > 0 %}
           <b>
             <p>Replies: {{ comment.children.count }}</p>
           </b>
         {% endif %}
       </div>
-      <div style="text-align:left;" class="lists">
+      <div class="lists">
         {% for child_comment in comment.children %}
         <ul class="nes-list is-disc">
           <li>{{ child_comment.comment_text }}</li>
@@ -39,22 +35,19 @@
     <p>No comments here yet.</p>
   {% endfor %}
   <br>
-  </div>
-</center>
+</div>
 
-<center> 
-  <div style="width: 80vw" class="nes-container">
-    <form method="POST"> 
-      {% csrf_token %}
-      {% for field in form %}
-      <div>
-        {{ field.errors }}
-        {{ field.label_tag }}<br>
-        {{ field }}
-      </div>
-      {% endfor %}
-    <button type="submit" class="nes-btn is-success">Send!</button>   
-    </form>
-  </div>  
-</center>
+<div id="comment_create" class="nes-container">
+  <form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      {{ field.errors }}
+      {{ field.label_tag }}<br>
+      {{ field }}
+    </div>
+    {% endfor %}
+  <button type="submit" class="nes-btn is-success">Send!</button>
+  </form>
+</div>
 {% endblock %}
