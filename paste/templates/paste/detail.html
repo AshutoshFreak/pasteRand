@@ -13,6 +13,7 @@
 <div class="comments">
   <h2>Comments</h2>
   {% for comment in comments %}
+    {% if comment.parent == None %}
     <div class="nes-container is-rounded">
       <p>{{ comment.comment_text }}</p>
       <div class="lists">
@@ -28,13 +29,13 @@
           <li>{{ child_comment.comment_text }}</li>
         </ul>
           {% endfor %}
+        <a class="nes-btn is-warning" href="{% url 'paste:thread' id=comment.id %}">reply</a>
       </div>
-      <a class="nes-btn is-warning" href="{% url 'paste:thread' id=comment.id %}">reply</a>
     </div>
+    {% endif %}
   {% empty %}
     <p>No comments here yet.</p>
   {% endfor %}
-  <br>
 </div>
 
 <div id="comment_create" class="nes-container">

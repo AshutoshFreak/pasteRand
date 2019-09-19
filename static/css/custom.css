@@ -1,25 +1,23 @@
 body {
   font-size: 15px;
 }
-
 .comments{
   margin: 5em;
 }
-
 #index_page{
   text-align: center;
-  margin: 4em;
+  margin: 1em;
 }
-
+#id_title{
+  width: 24em;
+}
 #detail_page{
   margin:5em;
 }
-
 #comment_create{
   margin: 5em;
   text-align: center;
 }
-
 td.hljs-ln-numbers {
   text-align: center;
   color: red;
@@ -30,7 +28,6 @@ td.hljs-ln-numbers {
 td.hljs-ln-code {
   padding-left: 10px;
 }
-
 /* github link */
 .github-link {
   position: fixed;
@@ -53,35 +50,31 @@ td.hljs-ln-code {
   body {
     font-size: 12px;
   }
-
   .code{
     font-size: 11px;
   }
-
   .logo{
     width: 25em;
     padding-top: 2em;
   }
-
   .github-link {
     display: none;
   }
-
   #index_page {
     margin-left: 2em;
   }
-
   #detail_page{
     margin:1em;
   }
   #id_content{
     width: 20em;
   }
-
+  #id_title{
+    width: 15em;
+  }
   #id_comment_text{
     width: 15em;
   }
-
   #comment_create{
     margin: 3em;
     text-align: center;

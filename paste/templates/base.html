@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 {% load static %}
-  <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
-  <link href="{% static 'css/nes.min.css' %}" rel="stylesheet" />
-  <link href="{% static 'css/print.css' %}" rel="stylesheet" media="print" />
-  <link href="{% static 'css/highlight.default.min.css' %}" rel="stylesheet" />
-  <script type="text/javascript" src="{% static 'js/highlight.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/highlightjs-line-numbers.min.js' %}"></script>
-  <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
-  <script>
-    hljs.initHighlightingOnLoad();
-    hljs.initLineNumbersOnLoad();
-  </script>
-  <title>{{ title }}</title>
+<link href="{% static 'css/custom.css' %}" rel="stylesheet" />
+<link href="{% static 'css/nes.min.css' %}" rel="stylesheet" />
+<link href="{% static 'css/print.css' %}" rel="stylesheet" media="print" />
+<link href="{% static 'css/highlight.default.min.css' %}" rel="stylesheet"/>
+<link href="{% static 'css/custom.css' %}" rel="stylesheet"/>
+<script type="text/javascript" src="{% static 'js/highlight.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/highlightjs-line-numbers.min.js' %}"></script>
+<script>hljs.initHighlightingOnLoad();hljs.initLineNumbersOnLoad();</script>
+<title>{{ title }}</title>
 </head>
 <body>
   <a class="github-link" :class="{ active:  scrollPos < 200 }" href="https://github.com/furkanonder/pasteRand" target="_blank" rel="noopener" @mouseover="startAnimate" @mouseout="stopAnimate">
