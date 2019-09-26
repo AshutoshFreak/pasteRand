@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView
 
@@ -59,10 +59,9 @@ class CommentThread(CreateView):
 
 
 class RawContent(DetailView):
-    template_name = "paste/raw_content.html"
     model = PasteFile
 
     def get(self, request, slug):
         paste_obj = get_object_or_404(PasteFile, slug=slug)
-        context = dict(raw=paste_obj.content)
-        return render(request, self.template_name, context)
+        context = paste_obj.content
+        return HttpResponse(context, content_type="text/plain; charset=utf8")
