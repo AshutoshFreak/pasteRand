@@ -1,9 +1,15 @@
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView
+from django.http import HttpResponse
 
 from .forms import CommentForm, PasteForm
 from .models import Comment, PasteFile
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+import json
 
 
 class Index(CreateView):
@@ -65,3 +71,18 @@ class RawContent(DetailView):
         paste_obj = get_object_or_404(PasteFile, slug=slug)
         context = paste_obj.content
         return HttpResponse(context, content_type="text/plain; charset=utf8")
+
+
+class AllPastes(APIView):
+    def get(self, request):
+        pastes = PasteFile.objects.all()
+        pastes_list = []
+        for paste in pastes:
+            paste_dict = {}
+            paste_dict['title'] = paste.title
+            paste_dict['content'] = paste.content
+            paste_dict['url'] = request.build_absolute_uri(paste.get_absolute_url())
+            paste_dict['date_time'] = paste.date_time.strftime('%Y-%m-%dT%H:%M:%S.%f')
+            pastes_list.append(paste_dict)
+        return HttpResponse(json.dumps(pastes_list), content_type="application/json")
+
