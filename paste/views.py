@@ -7,7 +7,6 @@ from .forms import CommentForm, PasteForm
 from .models import Comment, PasteFile
 
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import status
 import json
 
@@ -73,7 +72,7 @@ class RawContent(DetailView):
         return HttpResponse(context, content_type="text/plain; charset=utf8")
 
 
-class AllPastes(APIView):
+class AllPastes(DetailView):
     def get(self, request):
         pastes = PasteFile.objects.all()
         pastes_list = []
